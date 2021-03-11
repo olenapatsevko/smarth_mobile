@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:smarth_app/src/error.dart';
-import 'package:smarth_app/src/signup.dart';
+import 'package:smarth_app/src/elements/bouncing_button.dart';
 import 'package:smarth_app/src/summary.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import 'loginPage.dart';
+import 'basic/login.dart';
+import 'default/error.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key key, this.title}) : super(key: key);
@@ -47,7 +48,7 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+            context, MaterialPageRoute(builder: (context) => BouncingButton()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -130,8 +131,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget _doctorAppointment() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        _launchURL();
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -154,7 +154,6 @@ class _MenuPageState extends State<MenuPage> {
       ),
     );
   }
-
 
   Widget _title() {
     return Image.asset('assets/logo.png');
@@ -213,5 +212,14 @@ class _MenuPageState extends State<MenuPage> {
         ),
       ),
     );
+  }
+
+  _launchURL() async {
+    const url = 'https://helsi.me/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

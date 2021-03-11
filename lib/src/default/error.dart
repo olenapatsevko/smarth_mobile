@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:smarth_app/src/signup.dart';
 
-import 'loginPage.dart';
-
-class WelcomePage extends StatefulWidget {
-  WelcomePage({Key key, this.title}) : super(key: key);
+class ErrorPage extends StatefulWidget {
+  ErrorPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _ErrorPageState createState() => _ErrorPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
-  Widget _submitButton() {
+class _ErrorPageState extends State<ErrorPage> {
+  Widget _error() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pop(context);
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -33,32 +29,29 @@ class _WelcomePageState extends State<WelcomePage> {
                   spreadRadius: 2)
             ],
             color: Colors.white),
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
-        ),
+        child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
       ),
     );
   }
 
-  Widget _signUpButton() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpPage()));
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
+  Widget _errorText(String s) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 13),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: Colors.white, width: 2),
-        ),
-        child: Text(
-          'Register now',
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Color(0xff51c8fa).withAlpha(100),
+                offset: Offset(2, 4),
+                blurRadius: 8,
+                spreadRadius: 2)
+          ],
+          color: Colors.white),
+      child: Text(
+        s,
+        style: Theme.of(context).textTheme.title,
       ),
     );
   }
@@ -95,14 +88,14 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(
                 height: 80,
               ),
-              _submitButton(),
+              _errorText('Error occurred'),
+              SizedBox(
+                height: 80,
+              ),
+              _error(),
               SizedBox(
                 height: 20,
               ),
-              _signUpButton(),
-              SizedBox(
-                height: 20,
-              )
             ],
           ),
         ),

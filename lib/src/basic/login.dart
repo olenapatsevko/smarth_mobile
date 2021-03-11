@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smarth_app/src/menu.dart';
-import 'package:smarth_app/src/signup.dart';
+import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/basic/signup.dart';
 
-import 'Widget/bezierContainer.dart';
+import '../Widget/bezierContainer.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);

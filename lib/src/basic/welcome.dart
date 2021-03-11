@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/basic/signup.dart';
 
-class ErrorPage extends StatefulWidget {
-  ErrorPage({Key key, this.title}) : super(key: key);
+import 'login.dart';
+
+class WelcomePage extends StatefulWidget {
+  WelcomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _ErrorPageState createState() => _ErrorPageState();
+  _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _ErrorPageState extends State<ErrorPage> {
-  Widget _error() {
+class _WelcomePageState extends State<WelcomePage> {
+  Widget _submitButton() {
     return InkWell(
       onTap: () {
-        Navigator.pop(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -29,7 +33,32 @@ class _ErrorPageState extends State<ErrorPage> {
                   spreadRadius: 2)
             ],
             color: Colors.white),
-        child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
+        child: Text(
+          'Login',
+          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+        ),
+      ),
+    );
+  }
+
+  Widget _signUpButton() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignUpPage()));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 13),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          border: Border.all(color: Colors.white, width: 2),
+        ),
+        child: Text(
+          'Register now',
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
       ),
     );
   }
@@ -66,10 +95,14 @@ class _ErrorPageState extends State<ErrorPage> {
               SizedBox(
                 height: 80,
               ),
-              _error(),
+              _submitButton(),
               SizedBox(
                 height: 20,
               ),
+              _signUpButton(),
+              SizedBox(
+                height: 20,
+              )
             ],
           ),
         ),

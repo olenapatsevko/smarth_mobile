@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'Widget/bezierContainer.dart';
-import 'loginPage.dart';
-import 'menu.dart';
+import '../Widget/bezierContainer.dart';
+import 'login.dart';
+import '../menu.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);

@@ -38,6 +38,28 @@ class _SummaryPageState extends State<SummaryPage> {
     return Image.asset('assets/logo.png');
   }
 
+  Widget _successText(String email) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 13),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Color(0xff51c8fa).withAlpha(100),
+                offset: Offset(2, 4),
+                blurRadius: 8,
+                spreadRadius: 2)
+          ],
+          color: Colors.white),
+      child: Text(
+        "Your summary was sent to your email "+email,
+        style: Theme.of(context).textTheme.title,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +85,10 @@ class _SummaryPageState extends State<SummaryPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _title(),
+              SizedBox(
+                height: 80,
+              ),
+               _successText("email"),
               SizedBox(
                 height: 80,
               ),
