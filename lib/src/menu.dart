@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smarth_app/src/elements/bouncing_button.dart';
+import 'package:smarth_app/src/reccomendations/recommendation.dart';
 import 'package:smarth_app/src/summary.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,7 +76,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget _getSummary() {
     return InkWell(
       onTap: () {
-        Navigator.pop(
+        Navigator.push(
             context, MaterialPageRoute(builder: (context) => SummaryPage()));
       },
       child: Container(
@@ -104,7 +105,7 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+            context, MaterialPageRoute(builder: (context) => RecommendationRage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -156,7 +157,10 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   Widget _title() {
-    return Image.asset('assets/logo.png');
+    return Image.asset('assets/logo.png',
+        width: 100,
+        height: 100,
+        fit:BoxFit.fill );
   }
 
   @override
