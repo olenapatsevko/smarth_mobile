@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smarth_app/src/elements/bouncing_button.dart';
-import 'package:smarth_app/src/reccomendations/recommendation.dart';
+import 'package:smarth_app/src/recommendations/recommendation.dart';
 import 'package:smarth_app/src/summary.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'basic/login.dart';
+import 'basic/welcome.dart';
 import 'default/error.dart';
 
 class MenuPage extends StatefulWidget {
@@ -104,8 +106,8 @@ class _MenuPageState extends State<MenuPage> {
   Widget _getRecommendations() {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RecommendationRage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => RecommendationRage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -158,9 +160,7 @@ class _MenuPageState extends State<MenuPage> {
 
   Widget _title() {
     return Image.asset('assets/logo.png',
-        width: 100,
-        height: 100,
-        fit:BoxFit.fill );
+        width: 100, height: 100, fit: BoxFit.fill);
   }
 
   @override
@@ -187,6 +187,14 @@ class _MenuPageState extends State<MenuPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.logout, color: Color(0xff7e7e7e)),
+                  onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      CupertinoPageRoute(builder: (context) => WelcomePage()),
+                      (_) => false,
+                    );
+                  }),
               _title(),
               SizedBox(
                 height: 80,
