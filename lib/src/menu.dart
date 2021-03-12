@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smarth_app/src/elements/bouncing_button.dart';
+import 'package:smarth_app/src/process.dart';
 import 'package:smarth_app/src/recommendations/recommendation.dart';
-import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/insert.dart';
 import 'package:smarth_app/src/summary.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/insert.dart';
+
 import 'basic/welcome.dart';
+import 'default/error.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key key, this.title}) : super(key: key);
@@ -22,7 +24,7 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignPageSeven()));
+            context, MaterialPageRoute(builder: (context) => InsertPage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -66,7 +68,7 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BouncingButton()));
+            context, MaterialPageRoute(builder: (context) => ProcessPage()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -139,6 +141,50 @@ class _MenuPageState extends State<MenuPage> {
               ])),
           child: Text(
             'SUMMARIZE DATA',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat'),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getError() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ErrorPage()));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 13),
+        alignment: Alignment.center,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
+          child: Text(
+            'ERROR PAGE',
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Color(0xff616161),
@@ -295,6 +341,10 @@ class _MenuPageState extends State<MenuPage> {
                 height: 20,
               ),
               _doctorAppointment(),
+              SizedBox(
+                height: 20,
+              ),
+              _getError(),
               SizedBox(
                 height: 20,
               ),

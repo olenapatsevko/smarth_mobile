@@ -38,6 +38,42 @@ class _ProcessPageState extends State<ProcessPage> {
     return Image.asset('assets/logo.png');
   }
 
+  Widget _back() {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 13),
+        alignment: Alignment.center,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                    Color(0xffffffff),
+                    Color(0xff9ee0ff).withAlpha(100),
+                  ])),
+          child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,10 +102,31 @@ class _ProcessPageState extends State<ProcessPage> {
               SizedBox(
                 height: 80,
               ),
-              _summary(),
-              SizedBox(
-                height: 20,
-              ),
+              ListTile(
+                  title: Text('Blood Flow'),
+                  isThreeLine: true,
+                  subtitle: Text('For your gender and age \n 200-300'),
+                  leading: Icon(Icons.healing_rounded),
+                  trailing: Text('290')),
+              ListTile(
+                  title: Text('Sugar'),
+                  isThreeLine: true,
+                  subtitle: Text('For your gender and age \n 6-7'),
+                  leading: Icon(Icons.healing_rounded),
+                  trailing: Text('6.6')),
+              ListTile(
+                  title: Text('Mass index'),
+                  isThreeLine: true,
+                  subtitle: Text('For your gender and age \n 20-30'),
+                  leading: Icon(Icons.healing_rounded),
+                  trailing: Text('22.6')),
+              ListTile(
+                  title: Text('Heartbeat'),
+                  isThreeLine: true,
+                  subtitle: Text('For your gender and age \n 120-160'),
+                  leading: Icon(Icons.healing_rounded),
+                  trailing: Text('160')),
+              _back(),
             ],
           ),
         ),

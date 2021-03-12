@@ -110,7 +110,7 @@ class _RecommendationRageState extends State<RecommendationRage> {
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: const Color(0xFF7E7E7E),
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          borderRadius: new BorderRadius.circular(36.0),
         ),
         child: InkWell(
           onTap: () {

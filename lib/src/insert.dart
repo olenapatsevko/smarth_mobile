@@ -5,12 +5,12 @@ import 'package:google_places_picker/google_places_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:smarth_app/src/const/gradient_const.dart';
 
-class SignPageSeven extends StatefulWidget {
+class InsertPage extends StatefulWidget {
   @override
-  _SignPageSevenState createState() => _SignPageSevenState();
+  _InsertPageState createState() => _InsertPageState();
 }
 
-class _SignPageSevenState extends State<SignPageSeven> {
+class _InsertPageState extends State<InsertPage> {
   String _currentDate = DateFormat('M/d/y').format(DateTime.now());
   List<String> _countries = ["Germany", "Turkey", "Spain"];
   List<String> _states = ["Hessen", "Istanbul", "Barcelona"];
@@ -379,18 +379,20 @@ class _SignPageSevenState extends State<SignPageSeven> {
 
   Padding buildBackButton() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30.0),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pop(context);
+        },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
                     color: Colors.black12,
-                    blurRadius: 15,
+                    blurRadius: 10,
                     spreadRadius: 0,
-                    offset: Offset(0.0, 32.0)),
+                    offset: Offset(0.0, 3.0)),
               ],
               borderRadius: new BorderRadius.circular(36.0),
               gradient: LinearGradient(begin: FractionalOffset.centerLeft,
