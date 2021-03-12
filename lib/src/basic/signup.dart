@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../Widget/bezierContainer.dart';
-import 'login.dart';
 import '../menu.dart';
+import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);
@@ -66,27 +66,38 @@ class _SignUpPageState extends State<SignUpPage> {
               context, MaterialPageRoute(builder: (context) => MenuPage()));
         },
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(vertical: 15),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: Offset(2, 4),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.grey.shade200, Color(0xff51c8fa)])),
-          child: Text(
-            'Register Now',
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
-        ));
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.symmetric(vertical: 15),
+            alignment: Alignment.center,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 15,
+                        spreadRadius: 0,
+                        offset: Offset(0.0, 32.0)),
+                  ],
+                  borderRadius: new BorderRadius.circular(36.0),
+                  gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                      stops: [
+                        0.2,
+                        1
+                      ], colors: [
+                    Color(0xff616161),
+                    Color(0xff434343),
+                  ])),
+              child: Text(
+                'REGISTER',
+                style: TextStyle(
+                    color: Color(0xffffffff),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Montserrat'),
+              ),
+            )));
   }
 
   Widget _loginAccountLabel() {
@@ -166,13 +177,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                     ),
                     _submitButton(),
-                    SizedBox(height: height * .14),
+
                     _loginAccountLabel(),
                   ],
                 ),
               ),
             ),
-            Positioned(top: 40, left: 0, child: _backButton()),
           ],
         ),
       ),

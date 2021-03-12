@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smarth_app/src/elements/bouncing_button.dart';
 import 'package:smarth_app/src/recommendations/recommendation.dart';
+import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/insert.dart';
 import 'package:smarth_app/src/summary.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'basic/login.dart';
 import 'basic/welcome.dart';
-import 'default/error.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key key, this.title}) : super(key: key);
@@ -23,25 +22,41 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ErrorPage()));
+            context, MaterialPageRoute(builder: (context) => SignPageSeven()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xff51c8fa).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Add data',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
+          child: Text(
+            'INSERT DATA',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat'),
+          ),
         ),
       ),
     );
@@ -57,19 +72,35 @@ class _MenuPageState extends State<MenuPage> {
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xff51c8fa).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Process',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
+          child: Text(
+            'PROCESS DATA',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat'),
+          ),
         ),
       ),
     );
@@ -85,19 +116,35 @@ class _MenuPageState extends State<MenuPage> {
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xff51c8fa).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Summary',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
+          child: Text(
+            'SUMMARIZE DATA',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat'),
+          ),
         ),
       ),
     );
@@ -113,19 +160,35 @@ class _MenuPageState extends State<MenuPage> {
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xff51c8fa).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Recommendations',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
+          child: Text(
+            'RECOMMENDATIONS',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat'),
+          ),
         ),
       ),
     );
@@ -140,19 +203,35 @@ class _MenuPageState extends State<MenuPage> {
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(vertical: 13),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Color(0xff51c8fa).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
-            ],
-            color: Colors.white),
-        child: Text(
-          'Doctor Appointment',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    offset: Offset(0.0, 32.0)),
+              ],
+              borderRadius: new BorderRadius.circular(36.0),
+              gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                  stops: [
+                    0.2,
+                    1
+                  ], colors: [
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
+          child: Text(
+            'DOCTOR APPOINTMENT',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Color(0xff616161),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Montserrat'),
+          ),
         ),
       ),
     );

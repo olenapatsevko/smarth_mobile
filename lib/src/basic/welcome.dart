@@ -21,25 +21,37 @@ class _WelcomePageState extends State<WelcomePage> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
+            boxShadow: [
               BoxShadow(
-                  color: Color(0xff51c8fa).withAlpha(100),
-                  offset: Offset(2, 4),
-                  blurRadius: 8,
-                  spreadRadius: 2)
+                  color: Colors.black12,
+                  blurRadius: 15,
+                  spreadRadius: 0,
+                  offset: Offset(0.0, 32.0)),
             ],
-            color: Colors.white),
+            borderRadius: new BorderRadius.circular(36.0),
+            gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                stops: [
+                  0.2,
+                  1
+                ], colors: [
+                  Color(0xff616161),
+                  Color(0xff434343),
+                ])),
         child: Text(
-          'Login',
-          style: TextStyle(fontSize: 20, color: Color(0xff7e7e7e)),
+          'LOGIN',
+          style: TextStyle(
+              color: Color(0xffffffff),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Montserrat'),
         ),
       ),
     );
   }
+
+
 
   Widget _signUpButton() {
     return InkWell(
@@ -49,15 +61,31 @@ class _WelcomePageState extends State<WelcomePage> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: Colors.white, width: 2),
-        ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 15,
+                  spreadRadius: 0,
+                  offset: Offset(0.0, 32.0)),
+            ],
+            borderRadius: new BorderRadius.circular(36.0),
+            gradient: LinearGradient(begin: FractionalOffset.centerLeft,
+// Add one stop for each color. Stops should increase from 0 to 1
+                stops: [
+                  0.2,
+                  1
+                ], colors: [
+                  Color(0xff616161),
+                  Color(0xff434343),
+                ])),
         child: Text(
-          'Register now',
-          style: TextStyle(fontSize: 20, color: Colors.white),
+          'REGISTER',
+          style: TextStyle(
+              color: Color(0xffffffff),
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Montserrat'),
         ),
       ),
     );
