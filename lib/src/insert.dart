@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:flutter/material.dart';
 import 'package:google_places_picker/google_places_picker.dart';
 import 'package:intl/intl.dart';
@@ -12,10 +13,10 @@ class InsertPage extends StatefulWidget {
 
 class _InsertPageState extends State<InsertPage> {
   String _currentDate = DateFormat('M/d/y').format(DateTime.now());
-  List<String> _countries = ["Germany", "Turkey", "Spain"];
-  List<String> _states = ["Hessen", "Istanbul", "Barcelona"];
-  String _currentCountry = "Germany";
-  String _currentState = "Hessen";
+  List<String> _feeling = ["Good", "Brilliant", "Bad"];
+  List<String> _symptoms = ["Headache", "Temperature", "Dizzy"];
+  String _currentCountry = "Good";
+  String _currentState = "Headache";
   Place _place;
   int widgetIndex = 0;
   PageController _pageController;
@@ -192,21 +193,47 @@ class _InsertPageState extends State<InsertPage> {
         children: <Widget>[
           formTextField("DATE OF BIRTH"),
           buildDivider(),
-          buildDropdown("COUNTRY", _countries, _currentCountry,
+          buildDropdown("FEELING", _feeling, _currentCountry,
               changeDropDownCountryItem),
           buildDivider(),
           buildDropdown(
-              "STATE", _states, _currentState, changeDropDownStateItem),
-          buildDivider(),
-          buildCity("CITY", context),
-          buildDivider(),
-          buildStreet("STREET", context),
+              "SYMPTOM", _symptoms, _currentState, changeDropDownStateItem),
+          //buildDivider(),
+          //buildCity("CITY", context),
+          //buildDivider(),
+         // buildStreet("STREET", context),
           buildDivider(),
         ],
       ),
     );
   }
-
+  Widget _entryField(String title, {bool isPassword = false}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Colors.black26,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+              obscureText: isPassword,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: Color(0xfff3f3f4),
+                  filled: true))
+        ],
+      ),
+    );
+  }
   Padding buildLoginArea2(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -220,15 +247,14 @@ class _InsertPageState extends State<InsertPage> {
         children: <Widget>[
           formTextField("HEALTH"),
           buildDivider(),
-          buildDropdown("HEMOGLOBIN", _countries, _currentCountry,
-              changeDropDownCountryItem),
+          _entryField("WEIGHT"),
           buildDivider(),
           buildDropdown(
-              "BLOOD", _states, _currentState, changeDropDownStateItem),
+              "BLOOD", _symptoms, _currentState, changeDropDownStateItem),
           buildDivider(),
-          buildCity("LOOK", context),
+          _entryField("SKIN COLOR"),
           buildDivider(),
-          buildStreet("WATER", context),
+          _entryField("HEIGHT"),
           buildDivider(),
         ],
       ),
