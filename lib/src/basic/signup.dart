@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../Widget/bezierContainer.dart';
 import '../menu.dart';
@@ -54,6 +55,35 @@ class _SignUpPageState extends State<SignUpPage> {
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
                   filled: true))
+        ],
+      ),
+    );
+  }
+
+  Widget _entryNumberField(String title, {bool isPassword = false}) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextField(
+            decoration: new InputDecoration(
+                labelText: "Enter your " + title,
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ], // Only numbers can be entered
+          ),
         ],
       ),
     );
@@ -141,7 +171,19 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       children: <Widget>[
         _entryField("Username"),
-        _entryField("Email id"),
+        _entryField("Email"),
+        _entryField("First Name"),
+        _entryField("Last Name"),
+        _entryNumberField("Weight"),
+        _entryNumberField("Height"),
+        _entryNumberField("Hip"),
+        _entryNumberField("Waist"),
+
+        // bool isMan;
+        // DateTime birthday;
+
+        //  BloodGroup bloodGroup;
+
         _entryField("Password", isPassword: true),
       ],
     );
@@ -177,13 +219,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 20,
                     ),
                     _submitButton(),
-
                     _loginAccountLabel(),
                   ],
                 ),
               ),
             ),
-
           ],
         ),
       ),
