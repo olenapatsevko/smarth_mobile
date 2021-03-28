@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:smarth_app/src/api/AccountApi.dart';
+import 'package:smarth_app/src/basic/signup.dart';
 import 'package:smarth_app/src/menu.dart';
-
-import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/basic/signup.dart';
 
 import '../Widget/bezierContainer.dart';
 
 class LoginPage extends StatefulWidget {
+  final AccountService accountService = AccountService();
+
   LoginPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -15,6 +17,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final loginFieldController = TextEditingController();
+  final passwordFieldController = TextEditingController();
+
+  @override
+  void dispose() {
+    loginFieldController.dispose();
+    passwordFieldController.dispose();
+    super.dispose();
+  }
+
   Widget _backButton() {
     return InkWell(
       onTap: () {
@@ -36,7 +50,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _entryField(String title, {bool isPassword = false}) {
+  Widget _entryField(String title, var fieldController,
+      {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -50,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 10,
           ),
           TextField(
+              controller: fieldController,
               obscureText: isPassword,
               decoration: InputDecoration(
                   border: InputBorder.none,
@@ -63,8 +79,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _submitButton() {
     return InkWell(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MenuPage()));
+          _handleLogin();
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -88,9 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                       0.2,
                       1
                     ], colors: [
-                  Color(0xff616161),
-                  Color(0xff434343),
-                ])),
+                      Color(0xff616161),
+                      Color(0xff434343),
+                    ])),
             child: Text(
               'LOGIN',
               style: TextStyle(
@@ -100,6 +115,28 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ));
+  }
+
+  void _handleLogin() async {
+    String login = loginFieldController.text;
+    String password = passwordFieldController.text;
+    bool success = await widget.accountService
+        .processLoginRequest(context, login, password);
+
+    if (success) {
+      //go to menu
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MenuPage()));
+    } else {
+      final snackBar = SnackBar(
+        content: Text('Login failed!'),
+        action: SnackBarAction(
+          label: 'Hide',
+          onPressed: () {},
+        ),
+      );
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    }
   }
 
   Widget _divider() {
@@ -175,8 +212,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Email id"),
-        _entryField("Password", isPassword: true),
+        _entryField("Username", loginFieldController),
+        _entryField("Password", passwordFieldController, isPassword: true),
       ],
     );
   }
@@ -185,44 +222,45 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+        key: _scaffoldKey,
         body: Container(
-      height: height,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              top: -height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer()),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: height * .2),
-                  _title(),
-                  SizedBox(height: 50),
-                  _emailPasswordWidget(),
-                  SizedBox(height: 20),
-                  _submitButton(),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerRight,
-                    child: Text('Forgot Password ?',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500)),
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  top: -height * .15,
+                  right: -MediaQuery.of(context).size.width * .4,
+                  child: BezierContainer()),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: height * .2),
+                      _title(),
+                      SizedBox(height: 50),
+                      _emailPasswordWidget(),
+                      SizedBox(height: 20),
+                      _submitButton(),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.centerRight,
+                        child: Text('Forgot Password ?',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500)),
+                      ),
+                      _divider(),
+                      SizedBox(height: height * .055),
+                      _createAccountLabel(),
+                    ],
                   ),
-                  _divider(),
-                  SizedBox(height: height * .055),
-                  _createAccountLabel(),
-                ],
+                ),
               ),
-            ),
+              Positioned(top: 40, left: 0, child: _backButton()),
+            ],
           ),
-          Positioned(top: 40, left: 0, child: _backButton()),
-        ],
-      ),
-    ));
+        ));
   }
 }

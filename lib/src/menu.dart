@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smarth_app/src/api/AccountApi.dart';
 import 'package:smarth_app/src/process.dart';
 import 'package:smarth_app/src/recommendations/recommendation.dart';
 import 'package:smarth_app/src/summary.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/insert.dart';
-
+import 'api/SummaryApi.dart';
 import 'basic/welcome.dart';
 import 'default/error.dart';
+import 'insert.dart';
 
 class MenuPage extends StatefulWidget {
   MenuPage({Key key, this.title}) : super(key: key);
