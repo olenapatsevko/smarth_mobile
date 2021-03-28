@@ -4,7 +4,7 @@ class RegistrationRequest {
   String username;
   String password;
   bool isMan;
-  DateTime birthday;
+  String birthday;
   int weight;
   int height;
   String email;

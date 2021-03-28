@@ -20,6 +20,8 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  final SummaryService summaryService = SummaryService();
+  final AccountService accountService = AccountService();
   Widget _insertData() {
     return InkWell(
       onTap: () {
@@ -111,6 +113,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget _getSummary() {
     return InkWell(
       onTap: () {
+        summaryService.processSummaryRequest(context);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SummaryPage()));
       },
@@ -315,6 +318,7 @@ class _MenuPageState extends State<MenuPage> {
               IconButton(
                   icon: Icon(Icons.logout, color: Color(0xff7e7e7e)),
                   onPressed: () {
+                    accountService.logout(context);
                     Navigator.of(context).pushAndRemoveUntil(
                       CupertinoPageRoute(builder: (context) => WelcomePage()),
                       (_) => false,
@@ -341,13 +345,6 @@ class _MenuPageState extends State<MenuPage> {
                 height: 20,
               ),
               _doctorAppointment(),
-              SizedBox(
-                height: 20,
-              ),
-              _getError(),
-              SizedBox(
-                height: 20,
-              ),
             ],
           ),
         ),

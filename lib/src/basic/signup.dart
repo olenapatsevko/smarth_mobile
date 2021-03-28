@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smarth_app/src/api/AccountApi.dart';
+import 'package:smarth_app/src/api/RegistratoinApi.dart';
 
 import '../Widget/bezierContainer.dart';
 import '../menu.dart';
@@ -7,7 +9,8 @@ import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key, this.title}) : super(key: key);
-
+  final RegistrationService registrationService = RegistrationService();
+  final AccountService accountService = AccountService();
   final String title;
 
   @override
@@ -15,6 +18,22 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final emailFieldController = TextEditingController();
+  final fistNameFieldController = TextEditingController();
+  final lastNameFieldController = TextEditingController();
+  final usernameFieldController = TextEditingController();
+  final isManFieldController = TextEditingController();
+  final weightFieldController = TextEditingController();
+  final heightFieldController = TextEditingController();
+  final hipFieldController = TextEditingController();
+  final waistFieldController = TextEditingController();
+  final passwordFieldController = TextEditingController();
+  final sexFieldController = TextEditingController();
+  final birthdayFieldController = TextEditingController();
+  final bloodFieldController = TextEditingController();
+
   Widget _backButton() {
     return InkWell(
       onTap: () {
@@ -36,7 +55,84 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _entryField(String title, {bool isPassword = false}) {
+  void _handleRegistration() async {
+    String password = passwordFieldController.text;
+    String email = emailFieldController.text;
+    String username = usernameFieldController.text;
+    String sex = sexFieldController.text;
+    String birthday = birthdayFieldController.text;
+    String bloodGroup = bloodFieldController.text;
+    bool isMan = isManFieldController.text.toUpperCase() == ("MALE");
+    String weight = weightFieldController.text ;
+    String height = heightFieldController.text ;
+    String hip = hipFieldController.text ;
+    String waist = waistFieldController.text ;
+    String firstName = fistNameFieldController.text;
+    String lastName = lastNameFieldController.text;
+    bool success = await widget.registrationService.processRegistrationRequest(
+        context,
+        username,
+        password,
+        firstName,
+        lastName,
+        isMan,
+        birthday,
+        weight,
+        height,
+        email,
+        bloodGroup,
+        hip,
+        waist);
+    if (success) {
+      bool login = await widget.accountService
+          .processLoginRequest(context, username, password);
+
+      if (login) {
+        //go to menu
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MenuPage()));
+      } else {
+        final snackBar = SnackBar(
+          content: Text('Login failed!'),
+          action: SnackBarAction(
+            label: 'Hide',
+            onPressed: () {},
+          ),
+        );
+        _scaffoldKey.currentState.showSnackBar(snackBar);
+      }
+    } else {
+      final snackBar = SnackBar(
+        content: Text('Registration failed!'),
+        action: SnackBarAction(
+          label: 'Hide',
+          onPressed: () {},
+        ),
+      );
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    }
+  }
+
+  @override
+  void dispose() {
+    emailFieldController.dispose();
+    fistNameFieldController.dispose();
+    lastNameFieldController.dispose();
+    usernameFieldController.dispose();
+    isManFieldController.dispose();
+    weightFieldController.dispose();
+    heightFieldController.dispose();
+    hipFieldController.dispose();
+    waistFieldController.dispose();
+    passwordFieldController.dispose();
+    sexFieldController.dispose();
+    birthdayFieldController.dispose();
+    bloodFieldController.dispose();
+    super.dispose();
+  }
+
+  Widget _entryField(String title, var fieldController,
+      {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -51,6 +147,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           TextField(
               obscureText: isPassword,
+              controller: fieldController,
               decoration: InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
@@ -60,7 +157,8 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _entryNumberField(String title, {bool isPassword = false}) {
+  Widget _entryNumberField(String title, var fieldController,
+      {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -74,6 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextField(
+            controller: fieldController,
             decoration: new InputDecoration(
                 labelText: "Enter your " + title,
                 border: InputBorder.none,
@@ -92,8 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _submitButton() {
     return InkWell(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MenuPage()));
+          _handleRegistration();
         },
         child: Container(
             width: MediaQuery.of(context).size.width,
@@ -170,21 +268,18 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Username"),
-        _entryField("Email"),
-        _entryField("First Name"),
-        _entryField("Last Name"),
-        _entryNumberField("Weight"),
-        _entryNumberField("Height"),
-        _entryNumberField("Hip"),
-        _entryNumberField("Waist"),
-
-        // bool isMan;
-        // DateTime birthday;
-
-        //  BloodGroup bloodGroup;
-
-        _entryField("Password", isPassword: true),
+        _entryField("Username", usernameFieldController),
+        _entryField("Email", emailFieldController),
+        _entryField("First Name", fistNameFieldController),
+        _entryField("Last Name", lastNameFieldController),
+        _entryNumberField("Weight", weightFieldController),
+        _entryNumberField("Height", heightFieldController),
+        _entryNumberField("Hip", hipFieldController),
+        _entryNumberField("Waist", waistFieldController),
+        _entryField("Sex", sexFieldController),
+        _entryField("BirthDate (yyyy-mm-dd)", birthdayFieldController),
+        _entryField("Blood Type", bloodFieldController),
+        _entryField("Password", passwordFieldController, isPassword: true),
       ],
     );
   }
@@ -193,6 +288,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         height: height,
         child: Stack(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smarth_app/src/api/SummaryApi.dart';
+import 'package:smarth_app/src/api/holder/AccountInfoHolder.dart';
 
 class SummaryPage extends StatefulWidget {
   SummaryPage({Key key, this.title}) : super(key: key);
@@ -116,7 +118,7 @@ class _SummaryPageState extends State<SummaryPage> {
               SizedBox(
                 height: 80,
               ),
-              _successText("email"),
+              _successText(AccountDetails.email),
               SizedBox(
                 height: 80,
               ),
