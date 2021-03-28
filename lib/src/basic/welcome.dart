@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///F:/4%20course%202%20semestr/titenko/smarth/smarth_app/lib/src/basic/signup.dart';
+import 'package:smarth_app/src/basic/signup.dart';
 
 import 'login.dart';
 
