@@ -72,7 +72,6 @@ class AccountService implements AccountApi {
     AccountDetails.id = userResponse.id;
     AccountDetails.email = userResponse.email;
     AccountDetails.password = userResponse.password;
-    AccountDetails.recommendations = userResponse.recommendations;
   }
 
   void logout(BuildContext context) {
