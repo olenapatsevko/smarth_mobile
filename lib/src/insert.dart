@@ -251,8 +251,6 @@ class _InsertPageState extends State<InsertPage> {
           _entryField("LEUKOCYTES", leukocytesFieldController),
           buildDivider(),
           _entryField("HEMOGLOBIN", hemoglobinFieldController),
-          //    buildDivider(),
-          //    _entryField("HEMOPROTEIN", hemoproteinFieldController),
           buildDivider(),
           _entryField("THROMBOCYTES", thrombocytesFieldController),
           buildDivider(),
@@ -298,7 +296,6 @@ class _InsertPageState extends State<InsertPage> {
 
   void _handleInsertion() async {
     String hemoglobin = hemoglobinFieldController.text;
-    //   String hemoprotein = HEMOPROTEINFieldController.text;
     String thrombocytes = thrombocytesFieldController.text;
     String leukocytes = leukocytesFieldController.text;
     String email = AccountDetails.email;
@@ -307,7 +304,6 @@ class _InsertPageState extends State<InsertPage> {
         context,
         leukocytes,
         hemoglobin,
-        // hemoprotein,
         thrombocytes,
         homa,
         email);

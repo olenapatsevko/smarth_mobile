@@ -63,7 +63,7 @@ class InsertionService implements InsertionApi {
     requestBody['hemoglobin'] = hemoglobin;
     //   requestBody['hemoprotein'] = hemoprotein;
     requestBody['thrombocytes'] = thrombocytes;
-    requestBody['homa'] = jsonEncode(homa);
+    requestBody['homa'] = homa;
     requestBody['email'] = email;
     String jsonStr = jsonEncode(requestBody);
 
