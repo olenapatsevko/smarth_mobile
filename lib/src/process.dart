@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smarth_app/src/api/ProcessApi.dart';
+import 'package:smarth_app/src/dto/bmiresponse.dart';
 
 class ProcessPage extends StatefulWidget {
   ProcessPage({Key key, this.title}) : super(key: key);
@@ -10,6 +12,9 @@ class ProcessPage extends StatefulWidget {
 }
 
 class _ProcessPageState extends State<ProcessPage> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ProcessionService processionService = ProcessionService();
+
   Widget _summary() {
     return InkWell(
       onTap: () {
@@ -65,9 +70,9 @@ class _ProcessPageState extends State<ProcessPage> {
                     0.2,
                     1
                   ], colors: [
-                    Color(0xffffffff),
-                    Color(0xff9ee0ff).withAlpha(100),
-                  ])),
+                Color(0xffffffff),
+                Color(0xff9ee0ff).withAlpha(100),
+              ])),
           child: Icon(Icons.keyboard_arrow_left, color: Colors.black),
         ),
       ),
@@ -77,60 +82,60 @@ class _ProcessPageState extends State<ProcessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: Offset(2, 4),
-                    blurRadius: 5,
-                    spreadRadius: 2)
-              ],
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.grey.shade200, Color(0xff51c8fa)])),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _title(),
-              SizedBox(
-                height: 80,
-              ),
-              ListTile(
-                  title: Text('Blood Flow'),
-                  isThreeLine: true,
-                  subtitle: Text('For your gender and age \n 200-300'),
-                  leading: Icon(Icons.local_gas_station),
-                  trailing: Text('290')),
-              ListTile(
-                  title: Text('Sugar'),
-                  isThreeLine: true,
-                  subtitle: Text('For your gender and age \n 6-7'),
-                  leading: Icon(Icons.local_gas_station),
-                  trailing: Text('6.6')),
-              ListTile(
-                  title: Text('Mass index'),
-                  isThreeLine: true,
-                  subtitle: Text('For your gender and age \n 20-30'),
-                  leading: Icon(Icons.local_gas_station),
-                  trailing: Text('22.6')),
-              ListTile(
-                  title: Text('Heartbeat'),
-                  isThreeLine: true,
-                  subtitle: Text('For your gender and age \n 120-160'),
-                  leading: Icon(Icons.local_gas_station),
-                  trailing: Text('160')),
-              _back(),
-            ],
-          ),
-        ),
-      ),
-    );
+        key: _scaffoldKey,
+        body: FutureBuilder(
+            future: processionService.processProcessionRequest(context),
+            builder:
+                (BuildContext context, AsyncSnapshot<BMIResponse> snapshot) {
+              BMIResponse response = snapshot.data;
+              return SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            offset: Offset(2, 4),
+                            blurRadius: 5,
+                            spreadRadius: 2)
+                      ],
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.grey.shade200, Color(0xff51c8fa)])),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _title(),
+                      SizedBox(
+                        height: 80,
+                      ),
+                      ListTile(
+                          title: Text("Ideal weight"),
+                          isThreeLine: true,
+                          subtitle: Text('For your gender and age \n '),
+                          leading: Icon(Icons.healing_rounded),
+                          trailing: Text(response.ideal_weight)),
+                      ListTile(
+                          title: Text('Ponderal index'),
+                          isThreeLine: true,
+                          subtitle: Text('For your gender and age \n '),
+                          leading: Icon(Icons.healing_rounded),
+                          trailing: Text(response.ponderal_index)),
+                      ListTile(
+                          title: Text("Risk of hear attack"),
+                          isThreeLine: true,
+                          subtitle: Text(response.bmi.risk),
+                          leading: Icon(Icons.healing_rounded),
+                          trailing: Text(response.bmi.value)),
+                      _back(),
+                    ],
+                  ),
+                ),
+              );
+            }));
   }
 }

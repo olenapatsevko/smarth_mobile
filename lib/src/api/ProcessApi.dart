@@ -13,8 +13,7 @@ abstract class ProcessApi {
 }
 
 class ProcessionService implements ProcessApi {
-  Future<BMIResponse> processProcessionRequest(
-      BuildContext context, String email) async {
+  Future<BMIResponse> processProcessionRequest(BuildContext context) async {
     bool insertion = false;
 
     //load details
@@ -36,7 +35,7 @@ class ProcessionService implements ProcessApi {
             headers: <String, String>{"Content-Type": "application/json"},
             body: jsonStr)
         .then((http.Response response) {
-      return BMIResponse.fromJson(requestBody);
+      return BMIResponse.fromJson(jsonDecode(response.body));
     });
   }
 }

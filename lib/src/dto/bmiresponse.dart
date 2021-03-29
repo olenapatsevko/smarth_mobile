@@ -24,7 +24,7 @@ class BMIResponse {
     return BMIResponse(
         weight: Weight.fromJson(json['weight']),
         height: Height.fromJson(json['height']),
-        bmi: json['surface_area'],
+        bmi: Bmi.fromJson(json['bmi']),
         ideal_weight: json["ideal_weight"],
         surface_area: json["surface_area"],
         ponderal_index: json["ponderal_index"],
