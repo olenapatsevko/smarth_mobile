@@ -1,17 +1,28 @@
 import 'dart:async';
 
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_places_picker/google_places_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:smarth_app/src/api/InsertApi.dart';
+import 'package:smarth_app/src/api/holder/AccountInfoHolder.dart';
 import 'package:smarth_app/src/const/gradient_const.dart';
 
 class InsertPage extends StatefulWidget {
+  final InsertionService insertionService = InsertionService();
+
   @override
   _InsertPageState createState() => _InsertPageState();
 }
 
 class _InsertPageState extends State<InsertPage> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final homaFieldController = TextEditingController();
+  final leukocytesFieldController = TextEditingController();
+  final hemoglobinFieldController = TextEditingController();
+  final usernameFieldController = TextEditingController();
+  final thrombocytesFieldController = TextEditingController();
+  final hemoproteinFieldController = TextEditingController();
   String _currentDate = DateFormat('M/d/y').format(DateTime.now());
   List<String> _feeling = ["Good", "Brilliant", "Bad"];
   List<String> _symptoms = ["Headache", "Temperature", "Dizzy"];
@@ -41,6 +52,17 @@ class _InsertPageState extends State<InsertPage> {
     });
   }
 
+  @override
+  void dispose() {
+    homaFieldController.dispose();
+    leukocytesFieldController.dispose();
+    hemoglobinFieldController.dispose();
+    usernameFieldController.dispose();
+    thrombocytesFieldController.dispose();
+    // hemoproteinFieldController.dispose();
+    super.dispose();
+  }
+
   void changeDropDownStateItem(String selectedState) {
     setState(() {
       _currentState = selectedState;
@@ -55,7 +77,7 @@ class _InsertPageState extends State<InsertPage> {
         lastDate: new DateTime(2050));
     if (picked != null)
       setState(
-        () => _currentDate = DateFormat('M/d/y').format(picked),
+            () => _currentDate = DateFormat('M/d/y').format(picked),
       );
   }
 
@@ -72,10 +94,10 @@ class _InsertPageState extends State<InsertPage> {
   Widget build(BuildContext context) {
     final _media = MediaQuery.of(context).size;
     List<Widget> widgets = [
-      buildLoginArea(context),
       buildLoginArea2(context),
     ];
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Container(
@@ -101,13 +123,13 @@ class _InsertPageState extends State<InsertPage> {
                     decoration: BoxDecoration(
                       gradient: !_isSelected
                           ? LinearGradient(
-                              colors: [
-                                Colors.black.withOpacity(0.05),
-                                Colors.transparent,
-                              ],
-                              begin: FractionalOffset.topCenter,
-                              end: FractionalOffset.bottomCenter,
-                              stops: [0.2, 0.8])
+                          colors: [
+                            Colors.black.withOpacity(0.05),
+                            Colors.transparent,
+                          ],
+                          begin: FractionalOffset.topCenter,
+                          end: FractionalOffset.bottomCenter,
+                          stops: [0.2, 0.8])
                           : null,
                     ),
                     child: Padding(
@@ -180,34 +202,8 @@ class _InsertPageState extends State<InsertPage> {
     );
   }
 
-  Padding buildLoginArea(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 25.0,
-        right: 25,
-        top: 30,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          formTextField("DATE OF BIRTH"),
-          buildDivider(),
-          buildDropdown("FEELING", _feeling, _currentCountry,
-              changeDropDownCountryItem),
-          buildDivider(),
-          buildDropdown(
-              "SYMPTOM", _symptoms, _currentState, changeDropDownStateItem),
-          //buildDivider(),
-          //buildCity("CITY", context),
-          //buildDivider(),
-         // buildStreet("STREET", context),
-          buildDivider(),
-        ],
-      ),
-    );
-  }
-  Widget _entryField(String title, {bool isPassword = false}) {
+  Widget _entryField(String title, var fieldController,
+      {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -225,15 +221,22 @@ class _InsertPageState extends State<InsertPage> {
             height: 10,
           ),
           TextField(
-              obscureText: isPassword,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
+            obscureText: isPassword,
+            controller: fieldController,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true),
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+          )
         ],
       ),
     );
   }
+
   Padding buildLoginArea2(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -245,16 +248,15 @@ class _InsertPageState extends State<InsertPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          formTextField("HEALTH"),
+          _entryField("LEUKOCYTES", leukocytesFieldController),
           buildDivider(),
-          _entryField("WEIGHT"),
+          _entryField("HEMOGLOBIN", hemoglobinFieldController),
+          //    buildDivider(),
+          //    _entryField("HEMOPROTEIN", hemoproteinFieldController),
           buildDivider(),
-          buildDropdown(
-              "BLOOD", _symptoms, _currentState, changeDropDownStateItem),
+          _entryField("THROMBOCYTES", thrombocytesFieldController),
           buildDivider(),
-          _entryField("SKIN COLOR"),
-          buildDivider(),
-          _entryField("HEIGHT"),
+          _entryField("HOMA", homaFieldController),
           buildDivider(),
         ],
       ),
@@ -292,6 +294,43 @@ class _InsertPageState extends State<InsertPage> {
         )
       ],
     );
+  }
+
+  void _handleInsertion() async {
+    String hemoglobin = hemoglobinFieldController.text;
+    //   String hemoprotein = HEMOPROTEINFieldController.text;
+    String thrombocytes = thrombocytesFieldController.text;
+    String leukocytes = leukocytesFieldController.text;
+    String email = AccountDetails.email;
+    String homa = homaFieldController.text;
+    bool success = await widget.insertionService.processRegistrationRequest(
+        context,
+        leukocytes,
+        hemoglobin,
+        // hemoprotein,
+        thrombocytes,
+        homa,
+        email);
+
+    if (success) {
+      final snackBar = SnackBar(
+        content: Text('Success!'),
+        action: SnackBarAction(
+          label: 'Hide',
+          onPressed: () {},
+        ),
+      );
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    } else {
+      final snackBar = SnackBar(
+        content: Text('Failed!'),
+        action: SnackBarAction(
+          label: 'Hide',
+          onPressed: () {},
+        ),
+      );
+      _scaffoldKey.currentState.showSnackBar(snackBar);
+    }
   }
 
   Widget buildCity(String text, BuildContext context) {
@@ -370,7 +409,9 @@ class _InsertPageState extends State<InsertPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          _handleInsertion();
+        },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
           decoration: BoxDecoration(
@@ -388,9 +429,9 @@ class _InsertPageState extends State<InsertPage> {
                     0.2,
                     1
                   ], colors: [
-                Color(0xff616161),
-                Color(0xff434343),
-              ])),
+                    Color(0xff616161),
+                    Color(0xff434343),
+                  ])),
           child: Text(
             'SUBMIT',
             style: TextStyle(
@@ -427,9 +468,9 @@ class _InsertPageState extends State<InsertPage> {
                     0.2,
                     1
                   ], colors: [
-                Color(0xff616161),
-                Color(0xff434343),
-              ])),
+                    Color(0xff616161),
+                    Color(0xff434343),
+                  ])),
           child: IconButton(
             icon: const Icon(Icons.arrow_back),
             color: Colors.white,
@@ -442,8 +483,7 @@ class _InsertPageState extends State<InsertPage> {
     );
   }
 
-  Column buildDropdown(
-      String text, List dropDownList, String current, Function change) {
+  Column buildDropdown(String text, List dropDownList, String current, Function change) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
