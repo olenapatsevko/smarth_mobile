@@ -87,55 +87,59 @@ class _ProcessPageState extends State<ProcessPage> {
             future: processionService.processProcessionRequest(context),
             builder:
                 (BuildContext context, AsyncSnapshot<BMIResponse> snapshot) {
-              BMIResponse response = snapshot.data;
-              return SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Colors.grey.shade200,
-                            offset: Offset(2, 4),
-                            blurRadius: 5,
-                            spreadRadius: 2)
+              if (snapshot.hasData) {
+                BMIResponse response = snapshot.data;
+                return SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: Colors.grey.shade200,
+                              offset: Offset(2, 4),
+                              blurRadius: 5,
+                              spreadRadius: 2)
+                        ],
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.grey.shade200, Color(0xff51c8fa)])),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        _title(),
+                        SizedBox(
+                          height: 80,
+                        ),
+                        ListTile(
+                            title: Text("Ideal weight"),
+                            isThreeLine: true,
+                            subtitle: Text('For your gender and age \n '),
+                            leading: Icon(Icons.healing_rounded),
+                            trailing: Text(response.ideal_weight)),
+                        ListTile(
+                            title: Text('Ponderal index'),
+                            isThreeLine: true,
+                            subtitle: Text('For your gender and age \n '),
+                            leading: Icon(Icons.healing_rounded),
+                            trailing: Text(response.ponderal_index)),
+                        ListTile(
+                            title: Text("Risk of hear attack"),
+                            isThreeLine: true,
+                            subtitle: Text(response.bmi.risk),
+                            leading: Icon(Icons.healing_rounded),
+                            trailing: Text(response.bmi.value)),
+                        _back(),
                       ],
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.grey.shade200, Color(0xff51c8fa)])),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      _title(),
-                      SizedBox(
-                        height: 80,
-                      ),
-                      ListTile(
-                          title: Text("Ideal weight"),
-                          isThreeLine: true,
-                          subtitle: Text('For your gender and age \n '),
-                          leading: Icon(Icons.healing_rounded),
-                          trailing: Text(response.ideal_weight)),
-                      ListTile(
-                          title: Text('Ponderal index'),
-                          isThreeLine: true,
-                          subtitle: Text('For your gender and age \n '),
-                          leading: Icon(Icons.healing_rounded),
-                          trailing: Text(response.ponderal_index)),
-                      ListTile(
-                          title: Text("Risk of hear attack"),
-                          isThreeLine: true,
-                          subtitle: Text(response.bmi.risk),
-                          leading: Icon(Icons.healing_rounded),
-                          trailing: Text(response.bmi.value)),
-                      _back(),
-                    ],
+                    ),
                   ),
-                ),
-              );
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
             }));
   }
 }
