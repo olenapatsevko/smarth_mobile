@@ -2,100 +2,118 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smarth_app/src/api/RecommendationApi.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class RecommendationRage extends StatefulWidget {
   @override
   _RecommendationRageState createState() => _RecommendationRageState();
+
+  RecommendationRage({Key key}) : super(key: key);
 }
 
 class _RecommendationRageState extends State<RecommendationRage> {
-  List<Recommendation> _steps;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final RecommendationService recommendationService = RecommendationService();
 
   @override
   void initState() {
-    _steps = _generateData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF51C8FA),
-            Color(0xFFFFFFFF),
-          ],
-        ),
-      ),
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          accentColor: const Color(0xFF51C8FA).withOpacity(0.2),
-        ),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(
-              child: Column(
-                children: <Widget>[
-                  _Header(),
-                  Expanded(
-                    child: CustomScrollView(
-                      slivers: <Widget>[_TimelineSteps(steps: _steps)],
+    return Scaffold(
+        key: _scaffoldKey,
+        body: FutureBuilder(
+            future: recommendationService.processRecommendationRequest(context),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<Recommendation>> snapshot) {
+              if (snapshot.hasData) {
+                List<Recommendation> posts = snapshot.data;
+
+                return Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFF51C8FA),
+                        Color(0xFFFFFFFF),
+                      ],
                     ),
                   ),
-                  _error()
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      accentColor: const Color(0xFF51C8FA).withOpacity(0.2),
+                    ),
+                    child: SafeArea(
+                      child: Scaffold(
+                        backgroundColor: Colors.transparent,
+                        body: Center(
+                          child: Column(
+                            children: <Widget>[
+                              _Header(),
+                              Expanded(
+                                child: CustomScrollView(
+                                  slivers: <Widget>[
+                                    _TimelineSteps(steps: posts)
+                                  ],
+                                ),
+                              ),
+                              _backBtn()
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            }));
   }
 
   List<Recommendation> _generateData() {
     return <Recommendation>[
-      const Recommendation(
+      Recommendation(
         step: 1,
         title: 'Nutrition',
         message:
             'As a general rule of thumb, our practice recommends a sensible, whole-food approach, including lots of vegetables!',
       ),
-      const Recommendation(
+      Recommendation(
         step: 2,
         title: 'Physical Activity',
         message:
             '30-45 minutes on most days will help to regulate your hormones and mood, balancing your system and keeping your muscles loose.',
       ),
-      const Recommendation(
+      Recommendation(
         step: 3,
         title: 'Stress Reduction',
         message:
             'Yoga, meditation and walking are just some of the great ways you can learn to relieve your anxiety and stress.',
       ),
-      const Recommendation(
+      Recommendation(
         step: 4,
         title: 'Sleep',
         message:
             'We recommend making it a priority to get 7-8 hours of restful, uninterrupted sleep most nights.',
       ),
-      const Recommendation(
+      Recommendation(
         step: 5,
         title: 'Water Intake',
         message:
             'Bone broth, broth-based soups and foods with higher water content such as celery, tomatoes or melon can contribute to your daily goal!',
       ),
-      const Recommendation(
+      Recommendation(
         step: 6,
         title: 'Preventative Care',
         message:
             'First and Foremost, we recommend visiting us once a year for an Annual Physical (with potential routine bloodwork to monitor changes).',
       ),
-      const Recommendation(
+      Recommendation(
         step: 7,
         title: 'Limiting Excess Consumption or Exposure',
         message:
@@ -104,7 +122,7 @@ class _RecommendationRageState extends State<RecommendationRage> {
     ];
   }
 
-  Widget _error() {
+  Widget _backBtn() {
     return Container(
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.all(16),
@@ -122,13 +140,14 @@ class _RecommendationRageState extends State<RecommendationRage> {
 }
 
 class _TimelineSteps extends StatelessWidget {
-  const _TimelineSteps({Key key, this.steps}) : super(key: key);
-
+  _TimelineSteps({Key key, this.steps}) : super(key: key);
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Recommendation> steps;
 
   @override
   Widget build(BuildContext context) {
     return SliverList(
+      key: _scaffoldKey,
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           if (index.isOdd)
@@ -187,13 +206,14 @@ class _TimelineSteps extends StatelessWidget {
 }
 
 class _TimelineStepIndicator extends StatelessWidget {
-  const _TimelineStepIndicator({Key key, this.step}) : super(key: key);
-
+  _TimelineStepIndicator({Key key, this.step}) : super(key: key);
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final String step;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: _scaffoldKey,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: Color(0xFF7E7E7E),
@@ -213,13 +233,13 @@ class _TimelineStepIndicator extends StatelessWidget {
 }
 
 class _TimelineStepsChild extends StatelessWidget {
-  const _TimelineStepsChild({
+  _TimelineStepsChild({
     Key key,
     this.title,
     this.subtitle,
     this.isLeftAlign,
   }) : super(key: key);
-
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final String title;
   final String subtitle;
   final bool isLeftAlign;
@@ -227,6 +247,7 @@ class _TimelineStepsChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: _scaffoldKey,
       padding: isLeftAlign
           ? const EdgeInsets.only(right: 32, top: 16, bottom: 16, left: 10)
           : const EdgeInsets.only(left: 32, top: 16, bottom: 16, right: 10),
@@ -260,9 +281,12 @@ class _TimelineStepsChild extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: _scaffoldKey,
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -289,16 +313,4 @@ class _Header extends StatelessWidget {
       ),
     );
   }
-}
-
-class Recommendation {
-  const Recommendation({
-    this.step,
-    this.title,
-    this.message,
-  });
-
-  final int step;
-  final String title;
-  final String message;
 }
